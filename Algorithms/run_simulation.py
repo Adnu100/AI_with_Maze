@@ -105,7 +105,7 @@ class Simulation:
     def __present(self):
         self.r.present()
 
-def run_simulation(name, path, startstate, data, continuous = False):
+def run_simulation(name, path, maze, continuous = False):
     '''run a simulation of sprite going through the maze 
     parameters:
     name :          name of the algorithm to be displayed on window
@@ -113,6 +113,7 @@ def run_simulation(name, path, startstate, data, continuous = False):
     startstate :    the starting state of the maze
     data :          the maze matrix (containing 0s and 1s)
     continuos :     True if click is not necessary for next move else False'''
+    startstate, data = maze.startstate, maze.data
     w, r = initiation(name, data)
     run = True
     way = iter(path)
@@ -125,7 +126,7 @@ def run_simulation(name, path, startstate, data, continuous = False):
             if e.type == sdl2.SDL_QUIT:
                 run = False
                 break
-            elif e.type == sdl2.SDL_MOUSEBUTTONDOWN:
+            elif e.type == sdl2.SDL_MOUSEBUTTONDOWN or e.type == sdl2.SDL_KEYDOWN:
                 nextitem = True
         if not run:
             break

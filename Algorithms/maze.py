@@ -7,30 +7,32 @@ class maze_t:
         '''initialises maze'''
         self.r = len(data)
         self.c = len(data[0])
-        self.l = data
-        self.startstate = (0, self.l[0].index(1))
-        self.goalstate = (self.r - 1, self.l[self.r - 1].index(1))
+        self.data = data
+        self.startstate = (0, self.data[0].index(1))
+        self.goalstate = (self.r - 1, self.data[self.r - 1].index(1))
 
     def __str__(self):
         '''gives the numeric representation of maze'''
         s = ""
-        for i in self.l:
+        for i in self.data:
             s += str(i)
             s += "\n"
         return s 
 
     def nextstate(self, currentstate):
         '''gives the next states of maze'''
-        if self.l[currentstate[0] - 1][currentstate[1]] == 1:
+        if self.data[currentstate[0] - 1][currentstate[1]] == 1:
             yield (currentstate[0] - 1, currentstate[1])
-        if self.l[currentstate[0]][currentstate[1] + 1] == 1:
+        if self.data[currentstate[0]][currentstate[1] + 1] == 1:
             yield (currentstate[0], currentstate[1] + 1)
-        if self.l[currentstate[0] + 1][currentstate[1]] == 1:
+        if self.data[currentstate[0] + 1][currentstate[1]] == 1:
             yield (currentstate[0] + 1, currentstate[1])
-        if self.l[currentstate[0]][currentstate[1] - 1] == 1:
+        if self.data[currentstate[0]][currentstate[1] - 1] == 1:
             yield (currentstate[0], currentstate[1] - 1)
     
     def value(self, state):
+        '''heuristic function
+        returns the value h(n) of a state'''
         return abs(self.goalstate[0] - state[0]) + abs(self.goalstate[1] - state[1])
 
     def is_better(self, s1, s2, toprint = False):
@@ -44,6 +46,7 @@ class maze_t:
         return bool(val1 < val2)
 
 def get_maze(filename):
+    '''returns a maze from a filename'''
     try:
         f = open(filename, "r+")
         l = f.readlines()
@@ -80,6 +83,7 @@ def get_maze(filename):
             pass
 
 def direction(prev, cur):
+    '''returns the direction of a state respective to its previous state'''
     if cur[0] > prev[0]:
         return "down"
     elif cur[0] < prev[0]:
@@ -92,6 +96,14 @@ def direction(prev, cur):
         return "start"
 
 def main(fun, maze, to_print = True):
+    '''a function which returns a path in {up, down, left, right} format
+    parameters
+    fun :       the function which applied a specific algorithm to the maze 
+                and returns the coordinates list indicating the path
+                the function also needs to return another value whether solution is found or not
+                along with the path
+    maze :      the maze_t instance (the maze to be solved)
+    to_print :  whether to print the result or not'''
     path, result = fun(maze)
     resolvedpath = []
     a = resolvedpath.append

@@ -26,17 +26,23 @@ ticklables = [                                          ##
 ##########################################################
 
 def check_running_time(fun, maze, reptimes = 1000):
+    '''returns the average running time of fun(maze) after trial number of runs (reptimes)'''
     def check_func():
         fun(maze)
     tests = rep(check_func, number = 1, repeat = reptimes)
     return np.mean(tests) * 1000
 
 def check_maze(maze):
+    '''checks the running time of all algorithms to solve the maze 'maze'
+    yields running time for each algorithm'''
     global algorithms
     for module in algorithms:
         yield check_running_time(module.RUN, maze)
 
 def main(mazes):
+    '''takes input as a list of filenames as mazes, converts them to maze.maze_t type and checks 
+    the time for solving maze for each available algorithm
+    returns a list containing the list of average running time for each maze for an algorithm'''
     times = []
     mazes = [get_maze(filename) for filename in mazes]
     while None in mazes:
@@ -46,12 +52,14 @@ def main(mazes):
     return times
 
 def Colors():
+    '''infinite alternating RGB colors for bars'''
     while True:
         yield 'r'
         yield 'g'
         yield 'b'
 
 def BarGraph(data):
+    '''plots a bar graph obtained by the given data'''
     global ticklables
     fig = plt.figure()
     subfig = fig.add_subplot(111)

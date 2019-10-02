@@ -7,7 +7,8 @@ name = "simulated annealing"
 delta_E = lambda E1, E2: E1 - E2
 
 def probability(dE, T):
-    exp = - (dE / T)
+    k = 1e-2
+    exp = - (dE / (k * T))
     return e ** exp
 
 def simulated_annealing(maze):
@@ -17,10 +18,16 @@ def simulated_annealing(maze):
     BEST_SO_FAR = currentstate
     testpath = []
     T = 200
+    prev = None
     while currentstate != goalstate:
         found = False
         E1 = maze.value(currentstate)
+        P = True
         for state in maze.nextstate(currentstate):
+            if P:
+                P = False
+            if state == prev:
+                continue
             E2 = maze.value(state)
             if state == goalstate:
                 path.append(state)
@@ -29,15 +36,18 @@ def simulated_annealing(maze):
                 path.extend(testpath)
                 path.append(state)
                 testpath = []
+                prev = currentstate
                 BEST_SO_FAR = currentstate = state
                 found = True
                 break
             else:
-                p = probability(delta_E(E1, E2), T)
+                p = probability(delta_E(E2, E1), T)
                 if p < random.random():
                     found = True
                     testpath.append(state)
+                    prev = currentstate
                     currentstate = state
+                    break
         if not found:
             return path, SOLUTION_NOT_FOUND
         T = 0.9 * T
