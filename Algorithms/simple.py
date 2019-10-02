@@ -1,6 +1,8 @@
 import sys
 from maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
 
+name = "simple hill climbing"
+
 def simple_hill_climbing(maze):
     currentstate = maze.startstate
     goalstate = maze.goalstate

@@ -2,6 +2,8 @@ import sys, random
 from math import e
 from maze import get_maze, main, SOLUTION_FOUND, SOLUTION_NOT_FOUND
 
+name = "simulated annealing"
+
 delta_E = lambda E1, E2: E1 - E2
 
 def probability(dE, T):

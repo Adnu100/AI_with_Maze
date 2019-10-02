@@ -1,6 +1,8 @@
 import sys
 from maze import get_maze, main, SOLUTION_FOUND, SOLUTION_NOT_FOUND
 
+name = "steepest ascent hill climbing"
+
 def steepest_ascent_hill_climbing(maze):
     currentstate = maze.startstate
     goalstate = maze.goalstate

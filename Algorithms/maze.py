@@ -74,7 +74,10 @@ def get_maze(filename):
     except:
         return None
     finally:
-        f.close()
+        try:
+            f.close()
+        except:
+            pass
 
 def direction(prev, cur):
     if cur[0] > prev[0]:
@@ -88,21 +91,28 @@ def direction(prev, cur):
     else:
         return "start"
 
-def main(fun, maze):
+def main(fun, maze, to_print = True):
     path, result = fun(maze)
+    resolvedpath = []
+    a = resolvedpath.append
     if result == SOLUTION_FOUND:
-        print("path to other end found")
+        if to_print:
+            print("path to other end found")
         prev = path[0]
         for item in path:
-            print(direction(prev, item), end = ', ')
+            a(direction(prev, item))
             prev = item
-        print("end")
+        a("end")
     elif result == SOLUTION_NOT_FOUND:
-        print("path to other end not found")
-        print("could reach upto:")
+        if to_print:
+            print("path to other end not found")
+            print("could reach upto:")
         prev = path[0]
         for item in path:
-            print(direction(prev, item), end = ', ')
+            a(direction(prev, item))
             prev = item
-        print("end")
+        a("end")
+    if to_print:
+        print(", ".join(resolvedpath))
+    return resolvedpath
 
