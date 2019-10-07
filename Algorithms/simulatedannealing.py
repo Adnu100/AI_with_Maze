@@ -1,4 +1,5 @@
 import sys, random
+import argparse as ap
 import run_simulation
 from math import e
 from maze import get_maze, main, SOLUTION_FOUND, SOLUTION_NOT_FOUND
@@ -67,7 +68,7 @@ if __name__ == '__main__':
         print('error: invalid maze file provided', file = sys.stderr)
         sys.exit()
     if args.simulate:
-        run_simulation.run_simulation(name, main(RUN, m, to_print = False), m, continuous = c)
+        run_simulation.run_simulation(name, main(RUN, m, to_print = False), m, continuous = args.cont)
     else:
         main(RUN, m, to_print = True)
 
