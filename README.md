@@ -38,6 +38,7 @@ You may create your own mazes for testing taking into consideration the followin
 A sample maze file would be - 
 
 foo.maze
+```
 XXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXX
 
 XX               XXXXXXXXXXXXXXXX
@@ -59,3 +60,4 @@ XXXX XXXXXXXXXXXXXX     XXXXXXXXX
 XXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXX
 
 XXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXX
+```
