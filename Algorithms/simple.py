@@ -1,4 +1,6 @@
 import sys
+import argparse as ap
+import run_simulation
 from maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
 
 name = "simple hill climbing"
@@ -23,10 +25,17 @@ def simple_hill_climbing(maze):
 RUN = simple_hill_climbing
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        sys.exit()
-    m = get_maze(sys.argv[1])
+    a = ap.ArgumentParser(prog = 'simple.py', description = 'simple hill climbing algorithm implemented to solve a maze problem', epilog = 'Note: -c option is used with -s option')
+    a.add_argument(dest = 'mazefile', help = 'the maze file containing maze to solve')
+    a.add_argument('-s', '--simulate', dest = 'simulate', help = 'provide if you want the graphical simulation of the path found by algorithm in maze to be shown', action = 'store_true')
+    a.add_argument('-c', '--continuous', dest = 'cont', help = 'if supplied, the simulation is continuous (mouse click not needed for each turn)', action = 'store_true')
+    args = a.parse_args()
+    m = get_maze(args.mazefile)
     if not m:
+        print('error: invalid maze file provided', file = sys.stderr)
         sys.exit()
-    main(simple_hill_climbing, m)
+    if args.simulate:
+        run_simulation.run_simulation(name, main(RUN, m, to_print = False), m, continuous = c)
+    else:
+        main(RUN, m, to_print = True)
 

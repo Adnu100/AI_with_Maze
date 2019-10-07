@@ -10,6 +10,7 @@ from maze import get_maze
                                                         ##
 # importing the implemented algorithms as modules       ##
 # (making sure that each of them has RUN defined)       ##
+                                                        ##
 import simple, simulatedannealing, steepestascent       ##
                                                         ##
 algorithms = (                                          ## 
