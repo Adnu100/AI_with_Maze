@@ -33,7 +33,7 @@ You may create your own mazes for testing taking into consideration the followin
 2. There must not be any preceding or following blank lines
 3. There should be an entry through the first row and an exit through the last row
 4. It is not necessary, but it is nice if maze has a path from entry and exit. If not, many algorithms will give the path which is nearest to the exit
-5. You may use any character for wall (preferably a character like 'x', 'X', 'O', '*') and a space for wall
+5. You may use any character for wall i.e. blockage (preferably a character like 'x', 'X', 'O', '*') and a space for passage
 
 A sample maze file would be - 
 
