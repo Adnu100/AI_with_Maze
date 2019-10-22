@@ -59,6 +59,7 @@ class Simulation:
             #print(self.__x, self.__y)
             self.__clear()
             for _ in fun(self):
+                i = sdl2.SDL_GetTicks()
                 self.build_maze()
                 self.__rendersprite()
                 events = sdl.get_events()
@@ -67,7 +68,9 @@ class Simulation:
                         return False
                 self.__present()
                 self.__clear()
-                sdl2.SDL_Delay(1000 // 600)
+                i = sdl2.SDL_GetTicks() - i
+                if i < (1000 // 500):
+                    sdl2.SDL_Delay(1000 // 500 - i)
             return True
         return fullfun
 

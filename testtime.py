@@ -2,16 +2,13 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from timeit import repeat as rep
-from maze import get_maze
+from algorithms import *
+from algorithms.utilities.maze import get_maze
 
 ##########################################################
                                                         ##
-# NOTE: change this if any more algorithm is added      ##
-                                                        ##
-# importing the implemented algorithms as modules       ##
-# (making sure that each of them has RUN defined)       ##
-                                                        ##
-import simple, simulatedannealing, steepestascent       ##
+# NOTE: change this if any more algorithm is            ##
+#       added or wanted to be removed                   ##
                                                         ##
 algorithms = (                                          ## 
     simple,                                             ##
@@ -20,8 +17,8 @@ algorithms = (                                          ##
 )                                                       ##
 ticklables = [                                          ##
     'simple',                                           ##
-    'steepest ascent',                                  ##
-    'simulated annealing'                               ##
+    'steepest\nascent',                                 ##
+    'simulated\nannealing'                              ##
 ]                                                       ##
                                                         ##
 ##########################################################
