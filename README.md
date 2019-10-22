@@ -20,12 +20,20 @@ For example for simulated annealing, use
 and it will show simulation of a sprite going through the maze to the end of the maze as far as it can go.
 without --simulate and --continuous options, it will print the path on the console.
 
+There is also a common run.py file which gives access to all the algorithms. The number of a particular algorithm is specified after which it performs the search on maze w.r.t. the selected algorithm/ For example,
+
+`python3 run.py --simulate --continuous -a 1 Test\ Mazes/d.maze`
+
+This will use simple hill climbing for solving the maze.
+
 For comparing the time taken on the particular maze by algorithms, use testtime.py. You can modify it to some extent to compare only specific algorithms. You may provide more than one maze to testtime.py. It will give you time comparison by plotting bar graphs for each of the algorithms.
 For example to test running times of all algorithms on each maze in 'Test Maze' folder, use
 
-`python3 testtime.py ../Test\ Mazes/*.maze`
+`python3 testtime.py Test\ Mazes/*.maze`
 
 and it will show you the bar graphs for the time taken by each algorithm for each maze.
+
+You can even change which algorithms to compare particularly if you change the list in testtime.py. Open testtime.py for more information. All the code can be changed to some extent but full flexibility is not tested.
 
 ## Creating your own mazes
 You may create your own mazes for testing taking into consideration the following things - 
@@ -51,3 +59,15 @@ XXXX XXXXXXXXXXXXXX     XXXXXXXXX
 XXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXX
 ```
+
+## Use your own search algorithm
+To define your own search algorithm, you may use the maze_t class provided here in this code. Use get_maze, main, run_simulation from this repository. Use nextstate, is_better functions for checking next states and whether a state is better than another state or not respectively. The full documentation of various functions is provided in this repository.
+
+
+Inside the algorithms directory, create your own file like `foo.py`, define your own search method in it and import it in `__init__.py`.
+
+The `foo.py` created by you is then directly included run.py and given a number. You may test `foo.py` for a particular maze.
+
+Then to test its performance w.r.t. another algorithms, add foo in tuple named algorithms in `testtime.py` and give the name 'my foo method' in ticklables. Run testtime.py to compare the time taken by your method vs other methods. 
+
+
