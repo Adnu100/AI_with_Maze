@@ -1,5 +1,6 @@
 import sys
 import argparse as ap
+SDL = True
 try:
     try:
         from .utilities import run_simulation
@@ -7,11 +8,13 @@ try:
     except ImportError:
         from utilities import run_simulation
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
+    SDL = True
 except ImportError:
     try:
         from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     except ImportError:
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
+    SDL = False
 
 name = "simple hill climbing"
 
@@ -45,7 +48,12 @@ if __name__ == '__main__':
         print('error: invalid maze file provided', file = sys.stderr)
         sys.exit()
     if args.simulate:
-        run_simulation.run_simulation(name, main(RUN, m, to_print = False), m, continuous = args.cont)
+        if SDL:
+            run_simulation.run_simulation(name, main(RUN, m, to_print = False), m, continuous = args.cont)
+        else:
+            print("error: can't make simulation, PySDL2 not installed")
+            print("printing path instead...")
+            main(RUN, m, to_print = True)
     else:
         main(RUN, m, to_print = True)
 
