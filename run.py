@@ -2,7 +2,11 @@ import sys
 import argparse as ap
 import algorithms
 from algorithms.utilities.maze import get_maze, main
-from algorithms.utilities import run_simulation
+try:
+    from algorithms.utilities import run_simulation
+    SDL = True
+except ImportError:
+    SDL = False
 
 def get_parsed_arguments():
     a = ap.ArgumentParser(
@@ -28,14 +32,14 @@ def get_parsed_arguments():
             '-s', 
             '--simulate', 
             dest = 'simulate', 
-            help = 'provide if you want the graphical simulation of the path found by algorithm in maze to be shown', 
+            help = 'provide if you want the graphical simulation of the path found by algorithm in maze to be shown (must have PySDL2 module on your pc)', 
             action = 'store_true'
     )
     a.add_argument(
             '-c', 
             '--continuous', 
             dest = 'cont', 
-            help = 'if supplied, the simulation is continuous (mouse click not needed for each turn)', 
+            help = 'if supplied, the simulation is continuous (mouse click not needed for each turn, PySDL2 module required)', 
             action = 'store_true'
     )
     a.add_argument(
@@ -62,9 +66,17 @@ def run():
             print('error: invalid maze file provided', file = sys.stderr)
             sys.exit()
         print("using %s algorithm on maze..." %algorithms.all_list[args.al - 1].name)
+        printpath = False
         if args.simulate:
-            run_simulation.run_simulation(algorithms.all_list[args.al - 1].name, main(algorithms.all_list[args.al - 1].RUN, m, to_print = False), m, continuous = args.cont)
+            if SDL:
+                run_simulation.run_simulation(algorithms.all_list[args.al - 1].name, main(algorithms.all_list[args.al - 1].RUN, m, to_print = False), m, continuous = args.cont)
+            else:
+                print("error: can't make simulation, PySDL2 not installed")
+                print("printing path instead...")
+                printpath = True
         else:
+            printpath = True
+        if printpath:
             print()
             main(algorithms.all_list[args.al - 1].RUN, m, to_print = True)
 

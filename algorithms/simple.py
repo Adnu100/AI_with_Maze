@@ -1,11 +1,17 @@
 import sys
 import argparse as ap
 try:
-    from .utilities import run_simulation
-    from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
+    try:
+        from .utilities import run_simulation
+        from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
+    except ImportError:
+        from utilities import run_simulation
+        from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
 except ImportError:
-    from utilities import run_simulation
-    from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
+    try:
+        from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
+    except ImportError:
+        from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
 
 name = "simple hill climbing"
 

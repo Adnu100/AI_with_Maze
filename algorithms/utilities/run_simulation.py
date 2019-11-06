@@ -1,3 +1,5 @@
+raise ImportError()
+
 import sdl2
 import sdl2.ext as sdl
 from math import floor, sqrt
