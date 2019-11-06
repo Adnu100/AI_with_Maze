@@ -2,6 +2,7 @@ import sys
 import argparse as ap
 import algorithms
 from algorithms.utilities.maze import get_maze, main
+from types import SimpleNamespace
 try:
     from algorithms.utilities import run_simulation
     SDL = True
@@ -9,6 +10,8 @@ except ImportError:
     SDL = False
 
 def get_parsed_arguments():
+    if '-l' in sys.argv or '--list' in sys.argv:
+        return SimpleNamespace(show_list = True)
     a = ap.ArgumentParser(
             prog = 'run.py', 
             description = 'driver program implemented to solve a maze problem with any algorithm', 
@@ -21,9 +24,6 @@ def get_parsed_arguments():
             help = 'shows the list of total algorithms which can be used for solving a particular maze', 
             action = 'store_true'
     )
-    args, rem_args = a.parse_known_args()
-    if args.show_list:
-        return args
     a.add_argument(
             dest = 'mazefile', 
             help = 'the maze file containing maze to solve'
@@ -51,8 +51,7 @@ def get_parsed_arguments():
             default = 1, 
             choices = list(range(1, algorithms.totals + 1))
     )
-    a.parse_args(rem_args, namespace = args)
-    return args
+    return a.parse_args()
 
 def run():
     args = get_parsed_arguments()
