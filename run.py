@@ -64,7 +64,7 @@ def run():
         m = get_maze(args.mazefile)
         if not m:
             print('error: invalid maze file provided', file = sys.stderr)
-            sys.exit()
+            return -1
         print("using %s algorithm on maze..." %algorithms.all_list[args.al - 1].name)
         printpath = False
         if args.simulate:
@@ -79,8 +79,9 @@ def run():
         if printpath:
             print()
             main(algorithms.all_list[args.al - 1].RUN, m, to_print = True)
+    return 0
 
 if __name__ == '__main__':
-    run()
+    sys.exit(run())
 
 
