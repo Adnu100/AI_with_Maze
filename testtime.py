@@ -9,19 +9,28 @@ from algorithms.utilities.maze import get_maze
                                                         ##
 # NOTE: change this if any more algorithm is            ##
 #       added or wanted to be removed                   ##
+#       (must comment the below part which overwrites   ##
+#        these 2 variables)                             ##
                                                         ##
 algorithms = (                                          ## 
     simple,                                             ##
     simulatedannealing,                                 ##
-    steepestascent                                      ##
+    steepestascent,                                     ##
+    astar                                               ##
 )                                                       ##
 ticklables = [                                          ##
     'simple',                                           ##
     'steepest\nascent',                                 ##
-    'simulated\nannealing'                              ##
+    'simulated\nannealing',                             ##
+    'A* algorithm'                                      ##
 ]                                                       ##
                                                         ##
 ##########################################################
+
+# To compare all the algorithms available, use this, otherwise comment this
+algorithms = tuple(all_list)
+ticklables = tuple(i.name for i in algorithms)
+
 
 def check_running_time(fun, maze, reptimes = 1000):
     '''returns the average running time of fun(maze) after trial number of runs (reptimes)'''

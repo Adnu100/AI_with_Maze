@@ -16,7 +16,7 @@ except ImportError:
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     SDL = False
 
-name = "A*"
+name = "A* algorithm"
 
 class mylist:
     def __init__(self):
