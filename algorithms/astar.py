@@ -35,29 +35,63 @@ class mylist:
                     return True
                 else:
                     return False
+class node:
+    def __init__(self, state, prev = None):
+        self.state = state
+        self.prev = prev
+
+    def __eq__(self, another):
+        if(isinstance(another, node)):
+            return self.state == another.state
+        elif(isinstance(another, tuple)):
+            return self.state == another
+        return False
+
+class path_t:
+    def __init__(self, startstate):
+        self.l = [node(startstate)]
+
+    def add(self, state, parent):
+        for i in self.l:
+            if i == parent:
+                parent = i
+                break
+        self.l.append(node(state, parent))
+
+    def makepath(self):
+        n = self.l[-1]
+        path = []
+        while(n):
+            path.append(n.state)
+            n = n.prev
+        path.reverse()
+        return path
 
 def listcheck(l, f, q):
     return l.is_better_present_in_list(f, q)
 
 def astar(maze):
+    path = path_t(maze.startstate)
     OPEN = mylist()
     CLOSED = mylist()
     OPEN.put((0, maze.startstate))
     goalstate = maze.goalstate
-    while OPEN:
+    while OPEN.q:
         g, q = OPEN.get()
         for state in maze.nextstate(q):
             if state == goalstate:
-                return CLOSED.q, SOLUTION_FOUND
+                path.add(state, q)
+                return path.makepath(), SOLUTION_FOUND
             h = 1
             f = g + h
             if listcheck(OPEN, f, state):
                 continue
             if listcheck(CLOSED, f, state):
                 continue
+            path.add(state, q)
             OPEN.put((f, state))
         CLOSED.put((g, q))
-    return CLOSED.q, SOLUTION_NOT_FOUND #A-star finds the solution if present, so
+    return path.makepath(), SOLUTION_NOT_FOUND #A-star finds the solution if present, so
 
 RUN = astar
 
