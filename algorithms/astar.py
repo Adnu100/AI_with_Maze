@@ -91,7 +91,7 @@ def astar(maze):
             path.add(state, q)
             OPEN.put((f, state))
         CLOSED.put((g, q))
-    return path.makepath(), SOLUTION_NOT_FOUND #A-star finds the solution if present, so
+    return path.makepath(), SOLUTION_NOT_FOUND #A-star finds the solution if present, so this line is unreachable
 
 RUN = astar
 

@@ -32,7 +32,7 @@ algorithms = tuple(all_list)
 ticklables = tuple(i.name for i in algorithms)
 
 
-def check_running_time(fun, maze, reptimes = 1000):
+def check_running_time(fun, maze, reptimes = 500):
     '''returns the average running time of fun(maze) after trial number of runs (reptimes)'''
     def check_func():
         fun(maze)
