@@ -3,11 +3,9 @@ import argparse as ap
 try:
     try:
         from .utilities import run_simulation
-        from .utilities import myqueue as queue
         from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     except ImportError:
         from utilities import run_simulation
-        from utilities import myqueue as queue
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     SDL = True
 except ImportError:
@@ -17,7 +15,7 @@ except ImportError:
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     SDL = False
 
-name = "Breadth First Search"
+name = "Depth First Search"
 
 class node:
     __slots__ = ['state', 'parent']
@@ -29,40 +27,40 @@ class node:
     def addnode(self, child):
         child.parent = self
 
-def bfs(maze):
-    path = []
+def dfs(maze):
     startstate = maze.startstate
     goalstate = maze.goalstate
+    l = []
+    push = l.append
+    pop = l.pop
+    push(node(startstate))
     found = False
-    q = queue.Queue()
-    q.add(node(startstate))
     visited = set()
     while not found:
-        current = q.deq()
-        visited.add(current.state)
-        for state in maze.nextstate(current.state):
-            if state in visited:
-                continue
-            q.add(node(state, current))
-            visited.add(state)
-            if state == goalstate:
-                found = True
-                break
-    n = q.peeklast()
+        if not l:
+            return [], SOLUTION_NOT_FOUND
+        else:
+            current = pop()
+            for state in maze.nextstate(current.state):
+                if state in visited:
+                    continue
+                visited.add(state)
+                push(node(state, current))
+                if state == goalstate:
+                    found = True
+                    break
+    n = pop()
     path = []
     while n:
         path.append(n.state)
         n = n.parent
     path.reverse()
-    if found:
-        return path, SOLUTION_FOUND
-    else:
-        return path, SOLUTION_NOT_FOUND
+    return path, SOLUTION_FOUND
 
-RUN = bfs
+RUN = dfs
 
 if __name__ == '__main__':
-    a = ap.ArgumentParser(prog = 'bfs.py', description = 'breadth first search algorithm implemented to solve a maze problem', epilog = 'Note: -c option is used with -s option')
+    a = ap.ArgumentParser(prog = 'dfs.py', description = 'depth first search algorithm implemented to solve a maze problem', epilog = 'Note: -c option is used with -s option')
     a.add_argument(dest = 'mazefile', help = 'the maze file containing maze to solve')
     a.add_argument('-s', '--simulate', dest = 'simulate', help = 'provide if you want the graphical simulation of the path found by algorithm in maze to be shown', action = 'store_true')
     a.add_argument('-c', '--continuous', dest = 'cont', help = 'if supplied, the simulation is continuous (mouse click not needed for each turn)', action = 'store_true')
