@@ -1,6 +1,6 @@
 class Queue: 
     '''faster implementation of queue rather than using list.append(x) and list.pop(0)'''
-    class node: 
+    class __node: 
         __slots__ = ['n', 'front'] 
         def __init__(self, num): 
             self.n = num 
@@ -12,10 +12,10 @@ class Queue:
 
     def add(self, num): 
         if self.first: 
-            self.last.front = Queue.node(num) 
+            self.last.front = Queue.__node(num) 
             self.last = self.last.front 
         else: 
-            self.first = self.last = Queue.node(num) 
+            self.first = self.last = Queue.__node(num) 
 
     def deq(self): 
         n = self.first 
