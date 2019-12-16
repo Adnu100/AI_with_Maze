@@ -22,70 +22,74 @@ except ImportError:
 
 name = "A* algorithm"
 
+class comparablenode(node):
+    '''adding additional functionality (less than and greater than) to readymade node
+    so that it can be comparable'''
+    def __init__(self, state, parent = None):
+        node.__init__(self, state, parent)
+
+    def __lt__(self, another):
+        if isinstance(another, node):
+            return self.state < another.state
+        else:
+            raise TypeError("less than operation not supported between {} and {}".format(type(self), type(another)))
+
+    def __gt__(self, another):
+        if isinstance(another, node):
+            return self.state > another.state
+        else:
+            raise TypeError("greater than operation not supported between {} and {}".format(type(self), type(another)))
+
 class mylist:
     def __init__(self):
         self.q = []
+        self.d = {}
 
     def put(self, elem):
         heapq.heappush(self.q, elem)
+        self.d[elem[1]] = elem[0]
 
     def get(self):
-        return heapq.heappop(self.q)
+        popelement = heapq.heappop(self.q)
+        self.d.pop(popelement[1])
+        return popelement
 
     def is_better_present_in_list(self, cost, state):
-        for act_cost, act_state in self.q:
-            if act_state == state:
-                if act_cost <= cost:
-                    return True
-                else:
-                    return False
+        if state in self.d:
+            act_cost = self.d[state]
+            if act_cost <= cost:
+                return True
         return False
-
-class path_t:
-    def __init__(self, startstate):
-        self.l = [node(startstate)]
-
-    def add(self, state, parent):
-        for i in self.l:
-            if i == parent:
-                parent = i
-                break
-        self.l.append(node(state, parent))
-
-    def makepath(self):
-        n = self.l[-1]
-        path = []
-        while(n):
-            path.append(n.state)
-            n = n.parent
-        path.reverse()
-        return path
-
-def listcheck(l, f, q):
-    return l.is_better_present_in_list(f, q)
+        
+def makepath(n):
+    path = []
+    while n:
+        path.append(n.state)
+        n = n.parent
+    path.reverse()
+    return path
 
 def astar(maze):
-    path = path_t(maze.startstate)
+    startstate = maze.startstate
+    goalstate = maze.goalstate
     OPEN = mylist()
     CLOSED = mylist()
-    OPEN.put((0, maze.startstate))
-    goalstate = maze.goalstate
+    OPEN.put((0, comparablenode(maze.startstate)))
     while OPEN.q:
         g, q = OPEN.get()
-        for state in maze.nextstate(q):
+        for state in maze.nextstate(q.state):
             if state == goalstate:
-                path.add(state, q)
-                return path.makepath(), SOLUTION_FOUND
+                n = comparablenode(state, q)
+                return makepath(n), SOLUTION_FOUND
             h = 1
             f = g + h
-            if listcheck(OPEN, f, state):
+            if OPEN.is_better_present_in_list(f, state):
                 continue
-            if listcheck(CLOSED, f, state):
+            if CLOSED.is_better_present_in_list(f, state):
                 continue
-            path.add(state, q)
-            OPEN.put((f, state))
+            OPEN.put((f, comparablenode(state, q)))
         CLOSED.put((g, q))
-    return path.makepath(), SOLUTION_NOT_FOUND #A-star finds the solution if present, so this line is unreachable
+    return makepath(q), SOLUTION_NOT_FOUND #A-star finds the solution if present, so this line is unreachable
 
 RUN = astar
 

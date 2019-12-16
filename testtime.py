@@ -29,7 +29,10 @@ ticklables = [                                          ##
 
 # To compare all the algorithms available, use this, otherwise comment this
 algorithms = tuple(all_list)
-ticklables = tuple(i.name for i in algorithms)
+ticklables_long = tuple(i.name for i in algorithms)
+ticklables = tuple('\n'.join(i.name.split(' ')) for i in algorithms)
+
+std_reptimes = 1000
 
 def check_running_time(fun, maze, reptimes = 500):
     '''returns the average running time of fun(maze) after trial number of runs (reptimes)'''
@@ -41,9 +44,9 @@ def check_running_time(fun, maze, reptimes = 500):
 def check_maze(maze):
     '''checks the running time of all algorithms to solve the maze 'maze'
     yields running time for each algorithm'''
-    global algorithms
+    global algorithms, std_reptimes
     for module in algorithms:
-        yield check_running_time(module.RUN, maze)
+        yield check_running_time(module.RUN, maze, reptimes = std_reptimes)
 
 def main(mazes):
     '''takes input as a list of filenames as mazes, converts them to maze.maze_t type and checks 
@@ -86,7 +89,7 @@ def BarGraph(data):
 def ask():
     global ticklables
     for i in range(len(ticklables)):
-        if input("include %s? : " %ticklables[i]) == "y":
+        if input("include %s? : " %ticklables_long[i]) == "y":
             yield i
 
 def ask_n_add():
@@ -94,11 +97,14 @@ def ask_n_add():
     a = list(ask())
     algorithms = [algorithms[i] for i in a]
     ticklables = [ticklables[i] for i in a]
+    print("running selected algorithms on given mazes and computing time...")
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         sys.exit()
     if "-a" in sys.argv:
         ask_n_add()
+    if "-r" in sys.argv:
+        std_reptimes = int(sys.argv[sys.argv.index("-r") + 1])
     BarGraph(np.array(main(sys.argv[1:])))
 
