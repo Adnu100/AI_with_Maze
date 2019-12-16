@@ -83,8 +83,22 @@ def BarGraph(data):
     subfig.set_xticklabels(tuple(ticklables))
     plt.show()
 
+def ask():
+    global ticklables
+    for i in range(len(ticklables)):
+        if input("include %s? : " %ticklables[i]) == "y":
+            yield i
+
+def ask_n_add():
+    global algorithms, ticklables
+    a = list(ask())
+    algorithms = [algorithms[i] for i in a]
+    ticklables = [ticklables[i] for i in a]
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         sys.exit()
+    if "-a" in sys.argv:
+        ask_n_add()
     BarGraph(np.array(main(sys.argv[1:])))
 
