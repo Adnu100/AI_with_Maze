@@ -4,15 +4,19 @@ import heapq
 try:
     try:
         from .utilities import run_simulation
+        from .utilities.graphnode import node
         from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     except ImportError:
         from utilities import run_simulation
+        from utilities.graphnode import node
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     SDL = True
 except ImportError:
     try:
+        from .utilities.graphnode import node
         from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     except ImportError:
+        from utilities.graphnode import node
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     SDL = False
 
@@ -35,16 +39,6 @@ class mylist:
                     return True
                 else:
                     return False
-class node:
-    def __init__(self, state, prev = None):
-        self.state = state
-        self.prev = prev
-
-    def __eq__(self, another):
-        if(isinstance(another, node)):
-            return self.state == another.state
-        elif(isinstance(another, tuple)):
-            return self.state == another
         return False
 
 class path_t:
@@ -63,7 +57,7 @@ class path_t:
         path = []
         while(n):
             path.append(n.state)
-            n = n.prev
+            n = n.parent
         path.reverse()
         return path
 

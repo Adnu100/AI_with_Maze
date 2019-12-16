@@ -4,30 +4,26 @@ try:
     try:
         from .utilities import run_simulation
         from .utilities import myqueue as queue
+        from .utilities.graphnode import node
         from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     except ImportError:
         from utilities import run_simulation
         from utilities import myqueue as queue
+        from utilities.graphnode import node
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     SDL = True
 except ImportError:
     try:
+        from .utilities import myqueue as queue
+        from .utilities.graphnode import node
         from .utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     except ImportError:
+        from utilities import myqueue as queue
+        from utilities.graphnode import node
         from utilities.maze import main, get_maze, SOLUTION_FOUND, SOLUTION_NOT_FOUND
     SDL = False
 
 name = "Breadth First Search"
-
-class node:
-    __slots__ = ['state', 'parent']
-
-    def __init__(self, state, parent = None):
-        self.state = state
-        self.parent = parent
-
-    def addnode(self, child):
-        child.parent = self
 
 def bfs(maze):
     path = []

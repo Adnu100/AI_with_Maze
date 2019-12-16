@@ -21,15 +21,14 @@ class maze_t:
 
     def nextstate(self, currentstate):
         '''gives the next states of maze'''
-        if currentstate != self.goalstate:
-            if self.data[currentstate[0] - 1][currentstate[1]] == 1:
-                yield (currentstate[0] - 1, currentstate[1])
-            if self.data[currentstate[0]][currentstate[1] + 1] == 1:
-                yield (currentstate[0], currentstate[1] + 1)
-            if self.data[currentstate[0] + 1][currentstate[1]] == 1:
-                yield (currentstate[0] + 1, currentstate[1])
-            if self.data[currentstate[0]][currentstate[1] - 1] == 1:
-                yield (currentstate[0], currentstate[1] - 1)
+        if currentstate != self.startstate and self.data[currentstate[0] - 1][currentstate[1]] == 1:
+            yield (currentstate[0] - 1, currentstate[1])
+        if self.data[currentstate[0]][currentstate[1] + 1] == 1:
+            yield (currentstate[0], currentstate[1] + 1)
+        if currentstate != self.goalstate and self.data[currentstate[0] + 1][currentstate[1]] == 1:
+            yield (currentstate[0] + 1, currentstate[1])
+        if self.data[currentstate[0]][currentstate[1] - 1] == 1:
+            yield (currentstate[0], currentstate[1] - 1)
     
     def value(self, state):
         '''heuristic function
