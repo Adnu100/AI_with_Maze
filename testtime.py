@@ -90,7 +90,7 @@ def BarGraph(data):
 
 def ask():
     for i in range(len(ticklables)):
-        if input("include %s? : " %ticklables_long[i]) == "y":
+        if input("include %s? (y/n): " %ticklables_long[i]) == "y":
             yield i
 
 def ask_n_add():
@@ -101,10 +101,19 @@ def ask_n_add():
     print("running selected algorithms on given mazes and computing time...")
 
 if __name__ == '__main__':
+    #skipping argparse module because of less number of argumnets
     if len(sys.argv) < 2:
+        print('usage: testtime.py [-a] [-r] mazefile', file = sys.stderr)
         sys.exit()
     if "-a" in sys.argv:
         ask_n_add()
     if "-r" in sys.argv:
         std_reptimes = int(sys.argv[sys.argv.index("-r") + 1])
+    if "--help" in sys.argv or "-h" in sys.argv:
+        print('usage: testtime.py [-a] [-r] mazefile')
+        print('use this program to compare times taken by algorithms')
+        print('use -a to add algorithms to compare interactively\n\
+use -r to give custom repeate time (for small and fast algorithms \
+a larger repeat time is preferable)')
+        sys.exit(0)
     BarGraph(np.array(main(sys.argv[1:])))
