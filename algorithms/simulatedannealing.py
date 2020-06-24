@@ -1,4 +1,5 @@
-import sys, random
+import sys
+import random
 import argparse as ap
 from math import e
 try:
@@ -29,7 +30,6 @@ def simulated_annealing(maze):
     currentstate = maze.startstate
     goalstate = maze.goalstate
     path = [currentstate]
-    BEST_SO_FAR = currentstate
     testpath = []
     T = 200
     prev = None
@@ -51,7 +51,7 @@ def simulated_annealing(maze):
                 path.append(state)
                 testpath = []
                 prev = currentstate
-                BEST_SO_FAR = currentstate = state
+                currentstate = state
                 found = True
                 break
             else:
@@ -70,10 +70,31 @@ def simulated_annealing(maze):
 RUN = simulated_annealing
 
 if __name__ == '__main__':
-    a = ap.ArgumentParser(prog = 'simulatedannealing.py', description = 'simple hill climbing algorithm implemented to solve a maze problem', epilog = 'Note: -c option is used with -s option')
-    a.add_argument(dest = 'mazefile', help = 'the maze file containing maze to solve')
-    a.add_argument('-s', '--simulate', dest = 'simulate', help = 'provide if you want the graphical simulation of the path found by algorithm in maze to be shown', action = 'store_true')
-    a.add_argument('-c', '--continuous', dest = 'cont', help = 'if supplied, the simulation is continuous (mouse click not needed for each turn)', action = 'store_true')
+    a = ap.ArgumentParser(
+        prog = 'simulatedannealing.py', 
+        description = 'simple hill climbing algorithm implemented to solve a maze \
+                problem', 
+        epilog = 'Note: -c option is used with -s option'
+    )
+    a.add_argument(
+        dest = 'mazefile', 
+        help = 'the maze file containing maze to solve'
+    )
+    a.add_argument(
+        '-s', 
+        '--simulate', 
+        dest = 'simulate', 
+        help = 'provide if you want the graphical simulation of the path found by \
+                algorithm in maze to be shown', 
+        action = 'store_true')
+    a.add_argument(
+        '-c', 
+        '--continuous', 
+        dest = 'cont', 
+        help = 'if supplied, the simulation is continuous (mouse click not \
+                needed for each turn)', 
+        action = 'store_true'
+    )
     args = a.parse_args()
     m = get_maze(args.mazefile)
     if not m:
@@ -81,11 +102,19 @@ if __name__ == '__main__':
         sys.exit()
     if args.simulate:
         if SDL:
-            run_simulation.run_simulation(name, main(RUN, m, to_print = False), m, continuous = args.cont)
+            run_simulation.run_simulation(
+                name, 
+                main(
+                    RUN,
+                    m, 
+                    to_print = False
+                ), 
+                m, 
+                continuous = args.cont
+            )
         else:
             print("error: can't make simulation, PySDL2 not installed")
             print("printing path instead...")
             main(RUN, m, to_print = True)
     else:
         main(RUN, m, to_print = True)
-

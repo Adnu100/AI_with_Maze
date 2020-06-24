@@ -56,7 +56,12 @@ def bidirectional_both_bfs(maze):
     l2 = [node(goalstate)]
     visited1, visited2 = set(), set()
     while True:
-        l1 = [node(state, prevstate) for prevstate in l1 for state in maze.nextstate(prevstate.state) if state not in visited1]
+        l1 = [
+            node(state, prevstate) 
+            for prevstate in l1 
+            for state in maze.nextstate(prevstate.state) 
+            if state not in visited1
+        ]
         visited1.update(map(statefun, l1))
         if not l1:
             break
@@ -65,7 +70,12 @@ def bidirectional_both_bfs(maze):
         common = dir1states.intersection(dir2states)
         if common:
             return makepath(common.pop(), l1, l2), SOLUTION_FOUND
-        l2 = [node(state, prevstate) for prevstate in l2 for state in maze.nextstate(prevstate.state) if state not in visited2]
+        l2 = [
+            node(state, prevstate) 
+            for prevstate in l2 
+            for state in maze.nextstate(prevstate.state) 
+            if state not in visited2
+        ]
         visited2.update(map(statefun, l2))
         dir2states.clear()
         dir2states.update(l2)
@@ -83,10 +93,31 @@ def bidirectional_both_bfs(maze):
 RUN = bidirectional_both_bfs
 
 if __name__ == '__main__':
-    a = ap.ArgumentParser(prog = 'bidirectionalsearch.py', description = 'bidirectional search algorithm implemented to solve a maze problem', epilog = 'Note: -c option is used with -s option')
-    a.add_argument(dest = 'mazefile', help = 'the maze file containing maze to solve')
-    a.add_argument('-s', '--simulate', dest = 'simulate', help = 'provide if you want the graphical simulation of the path found by algorithm in maze to be shown', action = 'store_true')
-    a.add_argument('-c', '--continuous', dest = 'cont', help = 'if supplied, the simulation is continuous (mouse click not needed for each turn)', action = 'store_true')
+    a = ap.ArgumentParser(
+        prog = 'bidirectionalsearch.py', 
+        description = 'bidirectional search algorithm implemented to solve a maze \
+                problem', 
+        epilog = 'Note: -c option is used with -s option'
+    )
+    a.add_argument(
+        dest = 'mazefile', 
+        help = 'the maze file containing maze to solve'
+    )
+    a.add_argument(
+        '-s', 
+        '--simulate', 
+        dest = 'simulate', 
+        help = 'provide if you want the graphical simulation of the path found by \
+                algorithm in maze to be shown', 
+        action = 'store_true')
+    a.add_argument(
+        '-c', 
+        '--continuous', 
+        dest = 'cont', 
+        help = 'if supplied, the simulation is continuous (mouse click not \
+                needed for each turn)', 
+        action = 'store_true'
+    )
     args = a.parse_args()
     m = get_maze(args.mazefile)
     if not m:
@@ -94,11 +125,19 @@ if __name__ == '__main__':
         sys.exit()
     if args.simulate:
         if SDL:
-            run_simulation.run_simulation(name, main(RUN, m, to_print = False), m, continuous = args.cont)
+            run_simulation.run_simulation(
+                name, 
+                main(
+                    RUN,
+                    m, 
+                    to_print = False
+                ), 
+                m, 
+                continuous = args.cont
+            )
         else:
             print("error: can't make simulation, PySDL2 not installed")
             print("printing path instead...")
             main(RUN, m, to_print = True)
     else:
         main(RUN, m, to_print = True)
-

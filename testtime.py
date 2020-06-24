@@ -1,7 +1,7 @@
 import sys
+from timeit import repeat as rep
 import numpy as np
 import matplotlib.pyplot as plt
-from timeit import repeat as rep
 from algorithms import *
 from algorithms.utilities.maze import get_maze
 
@@ -35,7 +35,8 @@ ticklables = tuple('\n'.join(i.name.split(' ')) for i in algorithms)
 std_reptimes = 1000
 
 def check_running_time(fun, maze, reptimes = 500):
-    '''returns the average running time of fun(maze) after trial number of runs (reptimes)'''
+    '''returns the average running time of fun(maze) after trial number 
+    of runs (reptimes)'''
     def check_func():
         fun(maze)
     tests = rep(check_func, number = 1, repeat = reptimes)
@@ -44,14 +45,15 @@ def check_running_time(fun, maze, reptimes = 500):
 def check_maze(maze):
     '''checks the running time of all algorithms to solve the maze 'maze'
     yields running time for each algorithm'''
-    global algorithms, std_reptimes
     for module in algorithms:
         yield check_running_time(module.RUN, maze, reptimes = std_reptimes)
 
 def main(mazes):
-    '''takes input as a list of filenames as mazes, converts them to maze.maze_t type and checks 
+    '''takes input as a list of filenames as mazes, converts them to 
+    maze.maze_t type and checks 
     the time for solving maze for each available algorithm
-    returns a list containing the list of average running time for each maze for an algorithm'''
+    returns a list containing the list of average running time 
+    for each maze for an algorithm'''
     times = []
     mazes = [get_maze(filename) for filename in mazes]
     while None in mazes:
@@ -87,7 +89,6 @@ def BarGraph(data):
     plt.show()
 
 def ask():
-    global ticklables
     for i in range(len(ticklables)):
         if input("include %s? : " %ticklables_long[i]) == "y":
             yield i
@@ -107,4 +108,3 @@ if __name__ == '__main__':
     if "-r" in sys.argv:
         std_reptimes = int(sys.argv[sys.argv.index("-r") + 1])
     BarGraph(np.array(main(sys.argv[1:])))
-
