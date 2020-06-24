@@ -23,6 +23,7 @@ except ImportError:
 name = "bidirectional search"
 
 def makepath(commonstate, l1, l2):
+    '''creates a path from two half paths l1 and l2 having a common state'''
     s1, s2 = None, None
     for i in l1:
         if i.state == commonstate:

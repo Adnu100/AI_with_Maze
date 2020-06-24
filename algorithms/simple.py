@@ -41,7 +41,8 @@ if __name__ == '__main__':
     a = ap.ArgumentParser(
         prog = 'simple.py', 
         description = 'simple hill climbing algorithm implemented to solve a \
-                maze problem', epilog = 'Note: -c option is used with -s option'
+                maze problem', 
+        epilog = 'Note: -c option is used with -s option'
     )
     a.add_argument(
         dest = 'mazefile', 

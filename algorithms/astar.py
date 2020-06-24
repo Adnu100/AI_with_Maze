@@ -49,6 +49,8 @@ class comparablenode(node):
         )
 
 class mylist:
+    '''making a mylist class which provides faster access to elements
+    as compared to normal python lists'''
     def __init__(self):
         self.q = []
         self.d = {}
@@ -63,6 +65,8 @@ class mylist:
         return popelement
 
     def is_better_present_in_list(self, cost, state):
+        '''returns True is a better state than the given state is present in
+        mylist self'''
         if state in self.d:
             act_cost = self.d[state]
             if act_cost <= cost:
@@ -70,6 +74,8 @@ class mylist:
         return False
         
 def makepath(n):
+    '''makes a path from the linked comparablenode by traversing from
+    down to up'''
     path = []
     while n:
         path.append(n.state)
