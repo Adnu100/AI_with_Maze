@@ -1,10 +1,11 @@
+from math import floor, sqrt
 import sdl2
 import sdl2.ext as sdl
-from math import floor, sqrt
 
 SIZE = 20
 
 def initiation(algorithm, data):
+    '''initiate and return a window and renderer from the name of algorithm and maze data'''
     w = sdl.Window("%s simulation" %algorithm, (len(data[0]) * SIZE, len(data) * SIZE))
     r = sdl.Renderer(w)
     return w, r
@@ -49,14 +50,14 @@ class Simulation:
             for j in range(self.widy):
                 if self.data[i][j] == 1:
                     self.__draw_square(j * SIZE, i * SIZE)
-
+    
+    # pylint: disable=no-self-argument, protected-access, not-callable 
     def renderfirst(fun):
         '''takes a yielding function which performs a certain rendering of
         the sprite in a direction and returns a wrapper over it
         which takes care of things like rendering maze, handling mouse click events,
         clearing and rendering the content of window etc'''
         def fullfun(self):
-            #print(self.__x, self.__y)
             self.__clear()
             for _ in fun(self):
                 i = sdl2.SDL_GetTicks()
@@ -108,6 +109,13 @@ class Simulation:
     def __present(self):
         self.r.present()
 
+ACTION = {
+    'up': Simulation.move_up,
+    'down': Simulation.move_down,
+    'right': Simulation.move_right,
+    'left': Simulation.move_left
+} 
+
 def run_simulation(name, path, maze, continuous = False):
     '''run a simulation of sprite going through the maze 
     parameters:
@@ -139,17 +147,12 @@ def run_simulation(name, path, maze, continuous = False):
             except StopIteration:
                 run = False
                 break
-            if direction == 'up':
-                run = s.move_up()
-            elif direction == 'down':
-                run = s.move_down()
-            elif direction == 'right':
-                run = s.move_right()
-            elif direction == 'left':
-                run = s.move_left()
-            elif direction == 'end':
+            if direction == "end":
                 nextitem = False
+            elif direction == "start":
+                pass
+            else:
+                run = ACTION[direction](s)
         if not continuous:
             nextitem = False
     w.hide()
-

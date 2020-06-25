@@ -51,49 +51,36 @@ def get_maze(filename):
         f = open(filename, "r+")
         l = f.readlines()
         l = [i[:-1] for i in l]
-        if len(set([len(i) for i in l])) != 1:
+        if len(set(len(i) for i in l)) != 1:
             raise Exception
         for i in l:
             s = set(i)
-            if '*' in s:
-                s.remove('*')
-            if 'x' in s:
-                s.remove('x')
-            if 'X' in s:
-                s.remove('X')
-            if ' ' in s:
-                s.remove(' ')
-            if chr(9608) in s:
-                s.remove(chr(9608))
-            if len(s):
+            if not s.issubset({'*', 'x', 'X', ' ', chr(9608)}):
                 raise Exception
-        rows = len(l)
-        columns = len(l[0])
         data = [[1 if i == ' ' else 0 for i in j] for j in l]
         if data[0].count(1) == 1 and data[len(data) - 1].count(1) == 1:
             return maze_t(data)
-        else:
-            raise Exception
-    except:
-        return None
+        raise Exception
+    except Exception:
+        pass
     finally:
         try:
             f.close()
         except:
             pass
+    return None
 
 def direction(prev, cur):
     '''returns the direction of a state respective to its previous state'''
     if cur[0] > prev[0]:
         return "down"
-    elif cur[0] < prev[0]:
+    if cur[0] < prev[0]:
         return "up"
-    elif cur[1] > prev[1]:
+    if cur[1] > prev[1]:
         return "right"
-    elif cur[1] < prev[1]:
+    if cur[1] < prev[1]:
         return "left"
-    else:
-        return "start"
+    return "start"
 
 def main(fun, maze, to_print = True):
     '''a function which returns a path in {up, down, left, right} format
@@ -127,4 +114,3 @@ def main(fun, maze, to_print = True):
     if to_print:
         print(", ".join(resolvedpath))
     return resolvedpath
-

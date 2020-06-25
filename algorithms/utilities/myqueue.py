@@ -1,5 +1,8 @@
+# the ready-made data structure collections.deque can be used instead
+
 class Queue: 
-    '''faster implementation of queue rather than using list.append(x) and list.pop(0)'''
+    '''faster implementation of queue rather than using 
+    list.append(x) and list.pop(0)'''
     class __node: 
         __slots__ = ['n', 'front'] 
         def __init__(self, num): 
@@ -26,9 +29,10 @@ class Queue:
         return self.last.n 
 
     def isempty(self): 
-        return self.first == None 
+        return self.first is None 
 
-    def isfull(self): 
+    @staticmethod
+    def isfull(): 
         return False 
 
     def __str__(self): 
@@ -44,5 +48,4 @@ class Queue:
         return s 
 
     def __repr__(self):
-        return 'Queue(' + s.__str__()[1:-1] + ')'
-
+        return 'Queue(' + self.__str__()[1:-1] + ')'
