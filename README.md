@@ -12,10 +12,16 @@ timeit - for measuring times (must come preinstalled with python)
 numpy - for analysis purpose
 
 ## Using this repository
-Each algorithm can be itself run by python3 with optional simulation with (-s) option (Read more by reading help - give --help option). One test maze file must be provided to each. You can use the mazes in 'Test Maze' folder. 
+Each algorithm can be itself run by python3 with optional simulation with (-s) option (Read more by reading help - give --help option). 
+
+![help.ong](media/help.png)
+
+One test maze file must be provided to each. You can use the mazes in 'Test Maze' folder. 
 For example for simulated annealing, use
 
 `python3 simulatedannealing.py --simulate --continuous ../Test\ Mazes/f.maze`
+
+![simulation_example](media/run.gif)
 
 and it will show simulation of a sprite going through the maze to the end of the maze as far as it can go.
 without --simulate and --continuous options, it will print the path on the console.
@@ -30,6 +36,8 @@ For comparing the time taken on the particular maze by algorithms, use testtime.
 For example to test running times of all algorithms on each maze in 'Test Maze' folder, use
 
 `python3 testtime.py Test\ Mazes/*.maze`
+
+![testtime.py](media/testtime.gif)
 
 and it will show you the bar graphs for the time taken by each algorithm for each maze.
 
@@ -60,14 +68,13 @@ XXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXX
 ```
 
+![mazefile](media/nosimulation.png)
+
 ## Use your own search algorithm
 To define your own search algorithm, you may use the maze_t class provided here in this code. Use get_maze, main, run_simulation from this repository. Use nextstate, is_better functions for checking next states and whether a state is better than another state or not respectively. The full documentation of various functions is provided in this repository.
-
 
 Inside the algorithms directory, create your own file like `foo.py`, define your own search method in it and import it in `__init__.py`.
 
 The `foo.py` created by you is then directly included run.py and given a number. You may test `foo.py` for a particular maze.
 
 Then to test its performance w.r.t. another algorithms, add foo in tuple named algorithms in `testtime.py` and give the name 'my foo method' in ticklables. Run testtime.py to compare the time taken by your method vs other methods. 
-
-
