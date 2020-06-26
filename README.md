@@ -6,10 +6,11 @@ I implemented some algorithms used in AI like simple hill climbing, steepest asc
 
 ## Before starting
 Some python libraries need to be installed before continuing the repository:
-matplotlib - for plotting graphs
-sdl2 - for graphical simulation 
-timeit - for measuring times (must come preinstalled with python)
-numpy - for analysis purpose
+
+- matplotlib - for plotting graphs
+- sdl2 - for graphical simulation (optional)
+- timeit - for measuring times (must come preinstalled with python)
+- numpy - for analysis purpose
 
 ## Using this repository
 Each algorithm can be itself run by python3 with optional simulation with (-s) option (Read more by reading help - give --help option). 
