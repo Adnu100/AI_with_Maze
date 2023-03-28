@@ -1,6 +1,8 @@
 # AI_with_Maze
 All the artificial intelligence algorithms implemented in Python for maze problem
 
+I hope this repository becomes useful to anyone who wants to learn and compare how different algorithms in artificial intelligence produce solution to same problem. Users can understand how an algorithm will behave and also compare times taken by different algorithms with the help of graphs.
+
 ## Introduction
 I implemented some algorithms used in AI like simple hill climbing, steepest ascent hill climbing, simulated annealing etc. Also, carried out their time analysis and also graphical simulation of them
 
